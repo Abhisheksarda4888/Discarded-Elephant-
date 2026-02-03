@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Discarded Elephants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="light">
+    <button class="scroll-top" id="scrollTop">↑</button>
+    
+    <header class="header">
+        <div class="header-top">✨ Ethical Elephant Rehoming • Worldwide Delivery • 24/7 Support</div>
+        <div class="header-main">
+            <div class="logo"><span class="logo-icon">🐘</span><span>The Discarded Elephants</span></div>
+            <div class="header-actions">
+                <div class="theme-toggle" id="themeToggle"><div class="theme-slider" id="themeSlider">☀️</div></div>
+                <div class="currency-selector">
+                    <button class="currency-btn" id="currencyBtn"><span id="currencyFlag">🇮🇳</span> <span id="currencyCode">INR</span> ▼</button>
+                    <div class="currency-dropdown" id="currencyDropdown">
+                        <input type="text" class="currency-search" id="currencySearch" placeholder="Search...">
+                        <div id="currencyList"></div>
+                    </div>
+                </div>
+                <button class="cart-btn" id="cartBtn">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main id="mainContent">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Second Chances for Majestic Beings</h1>
+                <p class="subtitle">Every elephant deserves a loving home. Certified, ethical, and completely transparent.</p>
+                
+                <div class="section-label">Select Elephant Category</div>
+                <div class="category-grid" id="categoryGrid"></div>
+                
+                <div class="elephant-details" id="elephantDetails"></div>
+                
+                <div class="pricing-box">
+                    <div class="price-row"><span>Base Price</span><span class="price" id="basePrice">₹5,800</span></div>
+                    <div class="bargain-box">
+                        <label>💰 Want to bargain?</label>
+                        <div class="input-group">
+                            <input type="number" id="bargainInput" placeholder="Enter amount">
+                            <button id="bargainBtn">Apply</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-label">Select Quantity</div>
+                <div class="qty-selector">
+                    <button id="qtyMinus">−</button>
+                    <span id="qtyDisplay">1</span>
+                    <button id="qtyPlus">+</button>
+                </div>
+                
+                <div class="action-btns">
+                    <button class="btn btn-primary" id="buyNow">⚡ Buy Now</button>
+                    <button class="btn btn-secondary" id="addCart">🛒 Add to Cart</button>
+                </div>
+            </div>
+            <div class="canvas-container"><canvas id="elephantCanvas"></canvas></div>
+        </section>
+
+        <section class="trust-badges">
+            <div class="badge"><div class="icon">✅</div><div class="title">100% Verified</div><div class="desc">Health certified</div></div>
+            <div class="badge"><div class="icon">🌍</div><div class="title">Global Delivery</div><div class="desc">Worldwide transport</div></div>
+            <div class="badge"><div class="icon">🏥</div><div class="title">Lifetime Care</div><div class="desc">24/7 support</div></div>
+            <div class="badge"><div class="icon">🔒</div><div class="title">Secure Payment</div><div class="desc">GST compliant</div></div>
+        </section>
+
+        <section class="accessories">
+            <h2>Essential Accessories</h2>
+            <p>Everything your elephant needs</p>
+            <div class="product-grid" id="productGrid"></div>
+        </section>
+    </main>
+
+    <div id="corporatePage" style="display:none">
+        <section class="corporate">
+            <h2>🏢 Corporate Information</h2>
+            <h3>Principal Owner</h3>
+            <ul><li><strong>Abhishek Sarda</strong> - Founder & CEO</li></ul>
+            <h3>Co-owners</h3>
+            <ul><li>Mr. Rajat</li><li>Mr. Nikunj 🐴</li><li>Mr. Veer</li><li>Miss Lina</li><li>Miss Tanisha</li></ul>
+            <h3>Balance Sheet</h3>
+            <table class="balance-table">
+                <tr><th colspan="2">LIABILITIES</th><th>₹ Crores</th></tr>
+                <tr><td colspan="2">Equity Share Capital</td><td>10</td></tr>
+                <tr><td colspan="2">1x Alok Surana</td><td>69</td></tr>
+                <tr><td colspan="2">Trade Payables</td><td>500</td></tr>
+                <tr><td colspan="2"><strong>TOTAL</strong></td><td><strong>579</strong></td></tr>
+            </table>
+            <table class="balance-table">
+                <tr><th colspan="2">ASSETS</th><th>₹ Crores</th></tr>
+                <tr><td colspan="2">Trade Receivables</td><td>500</td></tr>
+                <tr><td colspan="2">Cash</td><td>10</td></tr>
+                <tr><td colspan="2">Inventory</td><td>69</td></tr>
+                <tr><td colspan="2"><strong>TOTAL</strong></td><td><strong>579</strong></td></tr>
+            </table>
+            <button class="btn btn-primary" onclick="showMainPage()">← Back</button>
+        </section>
+    </div>
+
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>🛒 Cart</h2><button class="close" id="closeCart">×</button></div>
+            <div class="modal-body" id="cartBody"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>📦 Checkout</h2><button class="close" id="closeCheckout">×</button></div>
+            <div class="modal-body">
+                <div class="currency-note">💱 Currency: <span id="checkoutCurrency"></span></div>
+                <div class="promo-section">
+                    <label>🎁 Discount Coupons</label>
+                    <div class="promo-options">
+                        <div class="promo-option" data-code="HAULA ELEPHANT" data-discount="30">
+                            <div><strong>HAULA ELEPHANT</strong><br><small>30% OFF</small></div><span>-30%</span>
+                        </div>
+                        <div class="promo-option selected" data-code="NONE" data-discount="0">
+                            <div><strong>No Coupon</strong><br><small>No discount</small></div><span>0%</span>
+                        </div>
+                    </div>
+                </div>
+                <label>Email (Optional)</label><input type="email" id="customerEmail" placeholder="your@email.com">
+                <label>City *</label><input type="text" id="deliveryCity" placeholder="Nagpur, India">
+                <label>Name *</label><input type="text" id="customerName" placeholder="Your name">
+                <label>Phone *</label><input type="tel" id="customerPhone" placeholder="Phone number">
+                
+                <label>Payment Method *</label>
+                <div class="payment-options">
+                    <div class="payment-option selected" data-payment="cod">
+                        <div class="radio"></div><div><strong>💰 Cash on Delivery</strong><br><small>Pay on arrival</small></div>
+                    </div>
+                    <div class="payment-option" data-payment="bnpl">
+                        <div class="radio"></div><div><strong>📅 Buy Now Pay Later</strong><br><small>Flexible payment</small></div>
+                    </div>
+                </div>
+                
+                <div class="gst-section">
+                    <label>📋 GST Classification</label>
+                    <p><strong>Honesty Test:</strong> Sin Good? YES (honest) = 18%. NO (dishonest) = 40%</p>
+                    <div class="gst-options">
+                        <div class="gst-btn selected" data-gst="sin"><div class="rate">18%</div><small>YES - Sin Good</small></div>
+                        <div class="gst-btn" data-gst="normal"><div class="rate">40%</div><small>NO - Not Sin</small></div>
+                    </div>
+                </div>
+                
+                <div id="checkoutSummary"></div>
+                <button class="btn btn-primary" id="completeOrder">Complete Order</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification-overlay" id="notificationOverlay">
+        <div class="notification">
+            <h3 id="notifTitle"></h3>
+            <p id="notifMessage"></p>
+            <div id="notifButtons"></div>
+            <small id="notifTimer"></small>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <h3>🐘 The Discarded Elephants</h3>
+        <p><strong>Broken Bone Pvt Ltd</strong><br>Principal Owner: Abhishek Sarda<br>Chandrapur, Maharashtra, India<br>GSTIN: 27ELEPH1234A2NT</p>
+        <div class="links">
+            <span onclick="showCorporatePage()">Corporate Info</span>
+            <span onclick="alert('Contact: +91-XXXX-XXXXXX')">Contact</span>
+        </div>
+        <small>© 2026 The Discarded Elephants. All rights reserved.</small>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

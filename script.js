@@ -576,7 +576,89 @@ ${discount > 0 ? `<div class="totals-row discount"><span><strong>🎉 Promo Disc
 </body>
 </html>`;
     
-    const blob = new Blob([billHTML], {type: 'text/html'});
+    const blob = new // Notifications
+let notificationTimer;
+let countdownInterval;
+
+function showNotification(title, message, type = 'success', confirmCallback = null) {
+    const overlay = document.getElementById('notificationOverlay');
+    const notification = overlay.querySelector('.notification');
+    const buttonsDiv = document.getElementById('notifButtons');
+    const timerText = document.getElementById('notifTimer');
+
+    // clear any previous timers BEFORE creating new ones
+    if (notificationTimer) clearTimeout(notificationTimer);
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    // reset timer text
+    timerText.textContent = '';
+
+    // set content
+    document.getElementById('notifTitle').textContent = title;
+    document.getElementById('notifMessage').innerHTML = message;
+
+    // styling
+    notification.classList.remove('error');
+    if (type === 'error') {
+        notification.style.borderLeftColor = 'var(--danger)';
+    } else {
+        notification.style.borderLeftColor = 'var(--success)';
+    }
+
+    // confirm or normal notification
+    if (confirmCallback) {
+        buttonsDiv.innerHTML =
+            '<button onclick="confirmYes()">Yes, Remove</button>' +
+            '<button onclick="closeNotification()">Cancel</button>';
+
+        window.confirmCallback = confirmCallback;
+    } else {
+        buttonsDiv.innerHTML = '<button onclick="closeNotification()">Got it!</button>';
+
+        let countdown = 4;
+        timerText.textContent = `Auto-closing in ${countdown}s • Tap to close`;
+
+        countdownInterval = setInterval(() => {
+            countdown--;
+            timerText.textContent = `Auto-closing in ${countdown}s • Tap to close`;
+
+            if (countdown <= 0) clearInterval(countdownInterval);
+        }, 1000);
+
+        notificationTimer = setTimeout(() => {
+            closeNotification();
+        }, 4000);
+    }
+
+    overlay.classList.add('show');
+}
+
+function confirmYes() {
+    if (window.confirmCallback) {
+        window.confirmCallback();
+        window.confirmCallback = null;
+    }
+    closeNotification();
+}
+
+function closeNotification() {
+    const overlay = document.getElementById('notificationOverlay');
+    overlay.classList.remove('show');
+
+    if (notificationTimer) clearTimeout(notificationTimer);
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    window.confirmCallback = null;
+}
+
+// close when clicking outside
+document.getElementById('notificationOverlay').addEventListener('click', closeNotification);
+
+// prevent close when clicking inside box
+document.querySelector('.notification').addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+Blob([billHTML], {type: 'text/html'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -593,64 +675,7 @@ ${discount > 0 ? `<div class="totals-row discount"><span><strong>🎉 Promo Disc
     updateCartCount();
 }
 
-// Notifications
-function showNotification(title, message, type = 'success', confirmCallback = null) {
-    const overlay = document.getElementById('notificationOverlay');
-    const notification = overlay.querySelector('.notification');
-    
-    document.getElementById('notifTitle').textContent = title;
-    document.getElementById('notifMessage').innerHTML = message;
-    
-    notification.classList.remove('error');
-    if (type === 'error') {
-        notification.style.borderLeftColor = 'var(--danger)';
-    } else {
-        notification.style.borderLeftColor = 'var(--success)';
-    }
-    
-    const buttonsDiv = document.getElementById('notifButtons');
-    
-    if (confirmCallback) {
-        buttonsDiv.innerHTML = '<button onclick="confirmYes()">Yes, Remove</button><button onclick="closeNotification()">Cancel</button>';
-        window.confirmCallback = confirmCallback;
-    } else {
-        buttonsDiv.innerHTML = '<button onclick="closeNotification()">Got it!</button>';
-        
-        let countdown = 4;
-        document.getElementById('notifTimer').textContent = `Auto-closing in ${countdown}s • Tap to close`;
-        
-        countdownInterval = setInterval(() => {
-            countdown--;
-            document.getElementById('notifTimer').textContent = `Auto-closing in ${countdown}s • Tap to close`;
-            if (countdown <= 0) clearInterval(countdownInterval);
-        }, 1000);
-        
-        notificationTimer = setTimeout(() => closeNotification(), 4000);
-    }
-    
-    overlay.classList.add('show');
-    
-    if (notificationTimer) clearTimeout(notificationTimer);
-    if (countdownInterval) clearInterval(countdownInterval);
-}
 
-function confirmYes() {
-    if (window.confirmCallback) {
-        window.confirmCallback();
-        window.confirmCallback = null;
-    }
-    closeNotification();
-}
-
-function closeNotification() {
-    document.getElementById('notificationOverlay').classList.remove('show');
-    if (notificationTimer) clearTimeout(notificationTimer);
-    if (countdownInterval) clearInterval(countdownInterval);
-    window.confirmCallback = null;
-}
-
-document.getElementById('notificationOverlay').addEventListener('click', closeNotification);
-document.querySelector('.notification').addEventListener('click', (e) => e.stopPropagation());
 
 // Page Navigation
 function showCorporatePage() {

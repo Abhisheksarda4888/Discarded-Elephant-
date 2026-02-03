@@ -644,7 +644,7 @@ function showNotification(title, message, type = 'success', confirmCallback = nu
         notificationTimer = setTimeout(() => closeNotification(), 4000);
     }
 
-    overlay.classList.add('show');
+    overlay.classList.add('active');
 }
 
 function confirmYes() {
@@ -656,7 +656,7 @@ function confirmYes() {
 }
 
 function closeNotification() {
-    document.getElementById('notificationOverlay').classList.remove('show');
+    document.getElementById('notificationOverlay').classList.remove('active');
 
     if (notificationTimer) clearTimeout(notificationTimer);
     if (countdownInterval) clearInterval(countdownInterval);
